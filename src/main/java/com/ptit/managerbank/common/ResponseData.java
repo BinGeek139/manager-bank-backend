@@ -12,7 +12,12 @@ public class ResponseData {
         responseData.setErrorCode(Constants.ERROR_CODE.SUCCESS);
         return responseData;
     }
-
+    public static ResponseData ofNotFound(String  message) {
+        ResponseData responseData = new ResponseData();
+        responseData.setErrorCode(Constants.ERROR_CODE.NOT_FOUND);
+        responseData.setMessage(message);
+        return responseData;
+    }
     public static ResponseData ofSuccess(String message) {
         ResponseData responseData = new ResponseData();
         responseData.setMessage(message);
