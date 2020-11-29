@@ -16,7 +16,6 @@ import java.util.Objects;
 
 @RestController()
 @RequestMapping("api/staff")
-
 public class StaffController extends BaseComponent {
     @Autowired
     StaffService staffService;
