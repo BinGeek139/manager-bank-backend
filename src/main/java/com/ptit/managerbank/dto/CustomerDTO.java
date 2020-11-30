@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -26,6 +23,6 @@ public class CustomerDTO implements Serializable {
     @Past(message = "staff.validate.date")
     private Date dob;
     private String address;
-    private Set<AccountBankDTO> accountBankDTOS;
+    private Set<SavingAccountDTO> savingAccountDTOS;
 }
 

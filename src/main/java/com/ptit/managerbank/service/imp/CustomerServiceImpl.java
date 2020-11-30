@@ -4,11 +4,9 @@ import com.ptit.managerbank.common.BaseComponent;
 import com.ptit.managerbank.common.Constants;
 import com.ptit.managerbank.common.ResponseData;
 import com.ptit.managerbank.dto.CustomerDTO;
-import com.ptit.managerbank.model.AccountBank;
-import com.ptit.managerbank.model.Position;
+import com.ptit.managerbank.model.SavingAccount;
 import com.ptit.managerbank.model.Customer;
-import com.ptit.managerbank.repository.AccountBankRepository;
-import com.ptit.managerbank.repository.PositionRepository;
+import com.ptit.managerbank.repository.SavingAccountRepository;
 import com.ptit.managerbank.repository.CustomerRepository;
 import com.ptit.managerbank.service.CustomerService;
 import com.ptit.managerbank.service.mapper.CustomerMapper;
@@ -70,13 +68,13 @@ public class CustomerServiceImpl  extends BaseComponent implements CustomerServi
 
     }
     @Autowired
-    AccountBankRepository accountBankRepository;
+    SavingAccountRepository savingAccountRepository;
     @Override
     public ResponseData validateCustomer(CustomerDTO customerDTO) {
         ResponseData responseData=new ResponseData();
-        if(!Objects.isNull(customerDTO.getAccountBankDTOS())){
-            customerDTO.getAccountBankDTOS().forEach(accountBankDTO -> {
-                Optional<AccountBank> optionalAccountBankn =accountBankRepository.findById(accountBankDTO.getId());
+        if(!Objects.isNull(customerDTO.getSavingAccountDTOS())){
+            customerDTO.getSavingAccountDTOS().forEach(accountBankDTO -> {
+                Optional<SavingAccount> optionalAccountBankn = savingAccountRepository.findById(accountBankDTO.getId());
                 if(!optionalAccountBankn.isPresent()){
                     responseData.setMessage(getText("accountbank.existed"));
                     return;

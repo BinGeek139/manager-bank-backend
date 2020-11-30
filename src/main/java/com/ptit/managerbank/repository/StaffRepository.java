@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface StaffRepository extends JpaRepository<Staff,Integer> {
     @Query(" FROM Staff st WHERE upper(st.fullName) like upper(?1)  ESCAPE  '!'")
     Page<Staff> findByFullName(String name, Pageable page);
+
+    Staff findFirstByUserName(String userName);
 }
