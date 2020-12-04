@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table
-public class Customer implements Serializable {
+public class Customer extends Auditable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,6 +22,8 @@ public class Customer implements Serializable {
     private String name;
     private Date dob;
     private String address;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    @OneToMany(targetEntity = SavingAccount.class,cascade = CascadeType.PERSIST, mappedBy = "customer")
     private Set<SavingAccount> savingAccounts;
+    @OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY, mappedBy = "customer")
+    private Set<AccountBank> accountBanks;
 }

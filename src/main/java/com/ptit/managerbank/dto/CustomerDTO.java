@@ -1,5 +1,6 @@
 package com.ptit.managerbank.dto;
 
+import com.ptit.managerbank.model.AccountBank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,6 @@ public class CustomerDTO implements Serializable {
     private Date dob;
     private String address;
     private Set<SavingAccountDTO> savingAccountDTOS;
+    private Set<AccountBankDTO> accountBanks;
 }
 

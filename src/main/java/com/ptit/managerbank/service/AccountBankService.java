@@ -13,6 +13,6 @@ public interface AccountBankService {
     void deleteAccountBank(Integer id);
     Page<AccountBankDTO> getAccountBankByCode(String code, Pageable pageable);
     ResponseData validateAccountBank(AccountBankDTO accountBankDTO);
-    boolean paymentAccountToAccount(AccountBank accountSend,AccountBank accountReceive,Double amount);
+//    boolean paymentAccountToAccount(AccountBank accountSend,AccountBank accountReceive,Double amount);
 
 }

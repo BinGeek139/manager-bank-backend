@@ -9,7 +9,7 @@ public interface StaffService {
     StaffDTO findStaffById(Integer id);
     StaffDTO saveStaff(StaffDTO staffDTO);
     StaffDTO updateStaff(StaffDTO staffDTO);
-    void deleteStaff(Integer id);
+    boolean deleteStaff(Integer id);
     Page<StaffDTO> getStaffByName(String name, Pageable pageable);
     ResponseData validateStaff(StaffDTO staffDTO);
 }

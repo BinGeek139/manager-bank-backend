@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Staff implements Serializable {
+public class Staff extends  Auditable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,7 +24,7 @@ public class Staff implements Serializable {
     private String password;
     private String role;
 
-    @ManyToMany (cascade = CascadeType.ALL)
+    @ManyToMany (fetch= FetchType.LAZY)
     @JoinTable(
             name = "positions_staff",
             joinColumns = @JoinColumn(name = "staff_id"),

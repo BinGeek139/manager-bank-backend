@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table
-public class SavingAccount implements Serializable {
+public class SavingAccount extends Auditable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,7 +21,7 @@ public class SavingAccount implements Serializable {
     private Double balance;
     private float interestRate;
     private Double minBalance;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 

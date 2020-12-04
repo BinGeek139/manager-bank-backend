@@ -10,13 +10,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class AccountBank {
+public class AccountBank extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String code;
     private String type;
+
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = true)
    private Customer customer;
+
 }

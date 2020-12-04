@@ -68,7 +68,11 @@ public class StaffController extends BaseComponent {
     }
     @DeleteMapping("{id}")
     public ResponseEntity<ResponseData> disableStaff(@PathVariable Integer id){
-        staffService.deleteStaff(id);
-        return ResponseEntity.ok(ResponseData.ofSuccess(getText("staff.disable.true",id.toString())));
+        if(staffService.deleteStaff(id)){
+            return ResponseEntity.ok(ResponseData.ofSuccess(getText("staff.disable.true",id.toString())));
+        } else {
+            return ResponseEntity.ok(ResponseData.ofSuccess(getText("staff.disable.false",id.toString())));
+        }
+
     }
 }
