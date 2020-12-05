@@ -1,6 +1,6 @@
-package com.ptit.managerbank.dto;
+package com.ptit.managerbank.dto.request;
 
-import com.ptit.managerbank.model.AccountBank;
+import com.ptit.managerbank.dto.AccountBankDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +15,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDTO implements Serializable {
-    private Integer id;
+public class CustomerRequestDTO implements Serializable {
     @Pattern(regexp = "^[_A-Za-z0-9-\\+]*",message = "staff.validate.code")
     private String code;
     @NotBlank(message = "staff.validate.fullName")
@@ -24,6 +23,4 @@ public class CustomerDTO implements Serializable {
     @Past(message = "staff.validate.date")
     private Date dob;
     private String address;
-
 }
-

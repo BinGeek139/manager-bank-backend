@@ -54,6 +54,12 @@ public class ResponseData {
         responseData.setErrorCode(Constants.ERROR_CODE.FAIL);
         return responseData;
     }
+    public static ResponseData ofFail(String message,String errorCode) {
+        ResponseData responseData = new ResponseData();
+        responseData.setMessage(message);
+        responseData.setErrorCode(errorCode);
+        return responseData;
+    }
     public String getErrorCode() {
         return errorCode;
     }

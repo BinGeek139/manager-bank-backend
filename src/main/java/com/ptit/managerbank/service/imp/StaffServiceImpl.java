@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
@@ -75,6 +76,8 @@ public class StaffServiceImpl extends BaseComponent implements StaffService  {
     public Page<StaffDTO> getStaffByName(String name, Pageable pageable) {
         if (!Objects.isNull(name)) {
             name = name.trim().replace("%", "!%").replace("_", "!_");
+        } else {
+            name="%";
         }
         Page<Staff> staffPageable=staffRepository.findByFullName(name,pageable);
         if(staffPageable != null && !staffPageable.isEmpty()){
@@ -110,5 +113,21 @@ public class StaffServiceImpl extends BaseComponent implements StaffService  {
         }
         return null;
 
+    }
+    @Transactional
+    @Override
+    public boolean checkPositionByUsername(String username, String namePosition) {
+        Staff staff=staffRepository.findFirstByUserName(username);
+        Set<Position> positions=staff.getPositions();
+        if( Objects.isNull(positions) || positions.size() ==0 ){
+            return false;
+        } else {
+            for (Position position : positions) {
+                if(position.getName().equals(namePosition)){
+                    return true;
+                }
+            }
+        }
+        return  false;
     }
 }

@@ -12,4 +12,5 @@ public interface StaffService {
     boolean deleteStaff(Integer id);
     Page<StaffDTO> getStaffByName(String name, Pageable pageable);
     ResponseData validateStaff(StaffDTO staffDTO);
+    boolean checkPositionByUsername(String username,String position);
 }

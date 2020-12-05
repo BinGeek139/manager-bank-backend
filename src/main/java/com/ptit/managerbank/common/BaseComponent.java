@@ -1,5 +1,6 @@
 package com.ptit.managerbank.common;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
@@ -30,6 +31,7 @@ public class BaseComponent {
 
     public String getText(String key, String... params) {
         try {
+            Locale locale=new Locale.Builder().setLanguage("vi").build();
             return messageSource.getMessage(key, params, Locale.getDefault());
         } catch (Exception e) {
             return key;
