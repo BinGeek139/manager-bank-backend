@@ -20,13 +20,14 @@ public interface AccountBankService {
     AccountBankDTO saveAccountBank(AccountBankDTO accountBankDTO);
     AccountBankDTO updateAccountBank(AccountBankDTO accountBankDTO);
     void deleteAccountBank(Integer id);
-    Page<AccountBankDTO> getAccountBankByCode(String code, Pageable pageable);
+    Page<AccountBankDTO> getAccountBankByCode(String code,String type, Pageable pageable);
     ResponseData validateAccountBank(AccountBankRequestDTO accountBankDTO);
     ResponseData validateSavingAccountBank(SavingAccountRequestDTO accountBankDTO);
     ResponseData validateUpdateAccountBank(AccountBankDTO accountBankDTO);
     BillDepositDTO deposit(String code, Double amount);
     ResponseData withdraw(String code, Double amount);
     ResponseData transfer(TransferRequest transferRequest);
+
 
 
 }

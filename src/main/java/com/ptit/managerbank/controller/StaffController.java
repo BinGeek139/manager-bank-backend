@@ -3,6 +3,7 @@ package com.ptit.managerbank.controller;
 import com.ptit.managerbank.common.BaseComponent;
 import com.ptit.managerbank.common.ResponseData;
 import com.ptit.managerbank.dto.StaffDTO;
+import com.ptit.managerbank.model.Staff;
 import com.ptit.managerbank.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.Objects;
 
 @RestController()
@@ -19,7 +21,7 @@ import java.util.Objects;
 public class StaffController extends BaseComponent {
     @Autowired
     StaffService staffService;
-    @GetMapping("{id}")
+    @GetMapping("find/{id}")
     public ResponseEntity<ResponseData> getStaff(@PathVariable Integer id, HttpServletRequest request){
         StaffDTO staffDTO=staffService.findStaffById(id);
         ResponseData responseData=null;
@@ -74,5 +76,18 @@ public class StaffController extends BaseComponent {
             return ResponseEntity.ok(ResponseData.ofSuccess(getText("staff.disable.false",id.toString())));
         }
 
+    }
+    @GetMapping("salary")
+    public  ResponseEntity<ResponseData> payroll(Integer id, Date start, Date end){
+        StaffDTO staffDTO=staffService.findStaffById(id);
+        ResponseData responseData=null;
+
+        if(Objects.isNull(staffDTO)){
+            responseData=ResponseData.ofNotFound(getText("staff.find.id.failure"));
+        } else {
+            Double salary=staffService.payrollBusinessman(id,start,end);
+            responseData=ResponseData.ofSuccess(getText("staff.payroll.success"),salary);
+        }
+        return ResponseEntity.ok(responseData);
     }
 }

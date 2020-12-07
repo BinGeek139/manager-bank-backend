@@ -6,6 +6,7 @@ import com.ptit.managerbank.common.ResponseData;
 import com.ptit.managerbank.dto.CustomerDTO;
 import com.ptit.managerbank.dto.request.CustomerRequestDTO;
 import com.ptit.managerbank.dto.response.CustomerResponseDTO;
+import com.ptit.managerbank.dto.response.CustomerStatistic;
 import com.ptit.managerbank.service.CustomerService;
 import com.ptit.managerbank.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
 @RestController()
@@ -83,6 +85,11 @@ public class CustomerController extends BaseComponent {
     public ResponseEntity<ResponseData> disableCustomer(@PathVariable Integer id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.ok(ResponseData.ofSuccess(getText("customer.disable.true", id.toString())));
+    }
+    @PostMapping("statistic")
+    public  ResponseEntity<ResponseData> statisticCustomerMaxSaving(){
+        List<CustomerStatistic> customerStatistics=customerService.statisticCustomerMaxSaving(10);
+        return  ResponseEntity.ok(ResponseData.ofSuccess(getText("customer.statistic.success"),customerStatistics));
     }
 }   
 

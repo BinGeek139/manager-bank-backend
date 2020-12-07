@@ -11,4 +11,5 @@ public interface StaffRepository extends JpaRepository<Staff,Integer> {
     Page<Staff> findByFullName(String name, Pageable page);
 
     Staff findFirstByUserName(String userName);
+
 }

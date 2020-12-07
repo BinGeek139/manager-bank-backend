@@ -3,10 +3,15 @@ package com.ptit.managerbank.service.imp;
 import com.ptit.managerbank.common.BaseComponent;
 import com.ptit.managerbank.common.Constants;
 import com.ptit.managerbank.common.ResponseData;
+import com.ptit.managerbank.common.TypeAccountBank;
 import com.ptit.managerbank.dto.PositionDTO;
 import com.ptit.managerbank.dto.StaffDTO;
+import com.ptit.managerbank.model.AccountBank;
+import com.ptit.managerbank.model.BillDeposit;
 import com.ptit.managerbank.model.Position;
 import com.ptit.managerbank.model.Staff;
+import com.ptit.managerbank.repository.AccountBankRepository;
+import com.ptit.managerbank.repository.BillDepositRepository;
 import com.ptit.managerbank.repository.PositionRepository;
 import com.ptit.managerbank.repository.StaffRepository;
 import com.ptit.managerbank.service.StaffService;
@@ -130,4 +135,34 @@ public class StaffServiceImpl extends BaseComponent implements StaffService  {
         }
         return  false;
     }
+
+    @Autowired
+    AccountBankRepository accountBankRepository;
+    @Autowired
+    BillDepositRepository billDepositRepository;
+    @Override
+    public Double payrollBusinessman(Integer id,Date start,Date end) {
+       Optional<Staff> optionalStaff=staffRepository.findById(id);
+       Staff staff=optionalStaff.get();
+        List<AccountBank> accountBankCredit=accountBankRepository.findAccountCreatedby(staff.getUserName(),
+                                                                                        TypeAccountBank.CREDIT_ACCOUNT_BANK.toString(),
+                                                                                        start,end);
+        double payroll=0;
+        payroll+=(accountBankCredit.size()*Constants.PROFIT_EACH_ACCOUNT_CREDIT);
+        List<AccountBank> accountBankSaving=accountBankRepository.findAccountCreatedby(staff.getUserName(),
+                TypeAccountBank.SAVE_ACCOUNT_BANK.toString(),
+                start,end);
+        for (AccountBank accountBank:accountBankSaving
+             ) {
+            List<BillDeposit> billDeposits=billDepositRepository.findByAccountBankSend(accountBank.getId());
+            if(billDeposits.size() > 0){
+                payroll+=(billDeposits.get(0).getAmount()*Constants.PROFIT_EACH_ACCOUNT_SAVING);
+            }
+
+        }
+
+        return payroll;
+    }
+
+
 }

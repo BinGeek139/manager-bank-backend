@@ -76,11 +76,14 @@ public class AccountBankServiceImpl extends BaseComponent implements AccountBank
     }
 
     @Override
-    public Page<AccountBankDTO> getAccountBankByCode(String code, Pageable pageable) {
+    public Page<AccountBankDTO> getAccountBankByCode(String code,String type, Pageable pageable) {
         if (!Objects.isNull(code)) {
             code = code.trim().replace("%", "!%").replace("_", "!_");
         }
-        Page<AccountBank> accountBankPageable = accountBankRepository.findByCode(code, pageable);
+        if (!Objects.isNull(type)) {
+            type = type.trim().replace("%", "!%").replace("_", "!_");
+        }
+        Page<AccountBank> accountBankPageable = accountBankRepository.findByCodeAndType(code,type, pageable);
         if (accountBankPageable != null && !accountBankPageable.isEmpty()) {
             accountBankPageable.getContent();
         }

@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.Objects;
 @RestController
 @RequestMapping("api/account-bank")
+@CrossOrigin
 public class BankAccountController  extends BaseComponent {
     @Autowired
     AccountBankService accountBankService;
@@ -36,8 +37,8 @@ public class BankAccountController  extends BaseComponent {
     }
 
     @GetMapping()
-    public ResponseEntity<ResponseData> getAccountBanks(String code, Pageable pageable, HttpServletRequest request){
-        Page<AccountBankDTO> accountBankDTOS= accountBankService.getAccountBankByCode(code,pageable);
+    public ResponseEntity<ResponseData> getAccountBanks(String code,String type, Pageable pageable, HttpServletRequest request){
+        Page<AccountBankDTO> accountBankDTOS= accountBankService.getAccountBankByCode(code,type,pageable);
         ResponseData  responseData=ResponseData.ofSuccess(getText("accountBank.find.id.success",request),accountBankDTOS);
         return ResponseEntity.ok(responseData);
     }
@@ -108,13 +109,11 @@ public class BankAccountController  extends BaseComponent {
     public ResponseEntity<ResponseData> withdraw(@RequestBody  String code,@RequestBody  Double amount){
         return  ResponseEntity.ok(accountBankService.withdraw(code,amount));
     }
+
     @PostMapping("transfer")
-    public ResponseEntity<ResponseData> transfer(@RequestBody TransferRequest transferRequest){
-
-
-        return null;
+    public  ResponseEntity<ResponseData> transfer(@Valid @RequestBody TransferRequest transferRequest){
+        ResponseData responseData=accountBankService.transfer(transferRequest);
+        return ResponseEntity.ok(responseData);
     }
-
-
 
 }

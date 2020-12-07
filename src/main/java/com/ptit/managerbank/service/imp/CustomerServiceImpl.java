@@ -3,9 +3,11 @@ package com.ptit.managerbank.service.imp;
 import com.ptit.managerbank.common.BaseComponent;
 import com.ptit.managerbank.common.Constants;
 import com.ptit.managerbank.common.ResponseData;
+import com.ptit.managerbank.common.TypeAccountBank;
 import com.ptit.managerbank.dto.CustomerDTO;
 import com.ptit.managerbank.dto.request.CustomerRequestDTO;
 import com.ptit.managerbank.dto.response.CustomerResponseDTO;
+import com.ptit.managerbank.dto.response.CustomerStatistic;
 import com.ptit.managerbank.model.AccountBank;
 import com.ptit.managerbank.model.Customer;
 import com.ptit.managerbank.repository.AccountBankRepository;
@@ -21,8 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class CustomerServiceImpl  extends BaseComponent implements CustomerService {
@@ -109,6 +110,34 @@ public class CustomerServiceImpl  extends BaseComponent implements CustomerServi
     public boolean checkCodeExisted(String code) {
         Optional<Customer> optionalCustomer=customerRepository.findFirstByCode(code);
         return optionalCustomer.isPresent();
+    }
+    @Transactional
+    @Override
+    public List<CustomerStatistic> statisticCustomerMaxSaving(Integer number) {
+        List<Customer> customers=customerRepository.findAll();
+        List<CustomerStatistic> customerStatistics=new ArrayList<>();
+        for (Customer customer:customers
+             ) {
+            double sumAmount=0;
+            for (AccountBank accountBank : customer.getAccountBanks()) {
+                if(accountBank.getType().equals(TypeAccountBank.SAVE_ACCOUNT_BANK)){
+                    sumAmount+=accountBank.getBalance();
+                }
+
+            }
+            CustomerStatistic customerStatistic=new CustomerStatistic();
+            customerStatistic.setCustomer(customerMapper.toDto(customer));
+            customerStatistic.setSumAmount(sumAmount);
+
+        }
+        customerStatistics.sort(new Comparator<CustomerStatistic>() {
+            @Override
+            public int compare(CustomerStatistic o1, CustomerStatistic o2) {
+                return o1.getSumAmount().compareTo(o2.getSumAmount());
+            }
+        });
+
+        return customerStatistics.subList(0,number>customerStatistics.size() ? customerStatistics.size()-1: number-1 ) ;
     }
 
 
