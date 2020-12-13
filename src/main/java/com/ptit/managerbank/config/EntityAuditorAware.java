@@ -18,7 +18,6 @@ public class EntityAuditorAware  implements AuditorAware<String> {
         if (authentication == null || !authentication.isAuthenticated()) {
             return Optional.of(null);
         }
-
         return  Optional.of(((CustomUserDetails)authentication.getPrincipal()).getUsername());
 
     }

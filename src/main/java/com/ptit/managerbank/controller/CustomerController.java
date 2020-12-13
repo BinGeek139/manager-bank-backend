@@ -50,12 +50,7 @@ public class CustomerController extends BaseComponent {
     StaffService staffService;
     @PostMapping
     public ResponseEntity<ResponseData> addCustomer(@RequestBody @Valid CustomerRequestDTO customerDTO, HttpServletRequest request, Principal principal) {
-        String username="";
-        if (principal instanceof UserDetails) {
-         username = ((UserDetails) principal).getUsername();
-        } else {
-        username = principal.toString();
-        }
+        String username=principal.getName();
         if(!staffService.checkPositionByUsername(username, Constants.NHAN_VIEN_KINH_DOANH)){
             return ResponseEntity.ok(ResponseData.ofFail(getText("customer.save.deny", request)));
         }

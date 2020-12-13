@@ -37,7 +37,7 @@ public class BankAccountController  extends BaseComponent {
     }
 
     @GetMapping()
-    public ResponseEntity<ResponseData> getAccountBanks(String code,String type, Pageable pageable, HttpServletRequest request){
+    public ResponseEntity<ResponseData> getAccountBanks(@RequestParam(required = false) String code,@RequestParam String type, Pageable pageable, HttpServletRequest request){
         Page<AccountBankDTO> accountBankDTOS= accountBankService.getAccountBankByCode(code,type,pageable);
         ResponseData  responseData=ResponseData.ofSuccess(getText("accountBank.find.id.success",request),accountBankDTOS);
         return ResponseEntity.ok(responseData);
