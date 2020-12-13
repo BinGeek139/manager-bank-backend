@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface AccountBankRepository extends JpaRepository<AccountBank,Integer> {
-    @Query(" FROM AccountBank acc WHERE upper(acc.code) like upper(?1) AND upper(acc.type) like upper(?2) ESCAPE  '!'")
+    @Query(" FROM AccountBank acc WHERE upper(acc.code)   like upper(?1) ESCAPE  '!' AND acc.type = ?2"  )
     Page<AccountBank> findByCodeAndType(String name,String type, Pageable page);
     Set<AccountBank> findByCustomerAndType(Customer customer,String type );
     Optional<AccountBank> findFirstByCode(String code);

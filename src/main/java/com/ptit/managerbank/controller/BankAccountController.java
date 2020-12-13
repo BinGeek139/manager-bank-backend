@@ -72,7 +72,7 @@ public class BankAccountController  extends BaseComponent {
             bankDTO.setInterestRate(accountBankDTO.getInterestRate());
             bankDTO.setMinBalance(accountBankDTO.getMinBalance());
             AccountBankDTO accountBank = accountBankService.saveAccountBank(bankDTO);
-            return ResponseEntity.ok(ResponseData.ofSuccess(getText("accountBank.save.success",request), accountBankDTO));
+            return ResponseEntity.ok(ResponseData.ofSuccess(getText("accountBank.save.success",request), accountBank));
         } else {
             return ResponseEntity.ok(responseData);
         }

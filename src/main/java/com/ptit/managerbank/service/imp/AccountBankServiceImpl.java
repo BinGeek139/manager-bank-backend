@@ -55,7 +55,13 @@ public class AccountBankServiceImpl extends BaseComponent implements AccountBank
     @Override
     public AccountBankDTO saveAccountBank(AccountBankDTO accountBankDTO) {
         String code = Constants.BANK_CODE + StringUtils.randomNumberString();
+        Optional<Customer> customer=customerRepository.findById(accountBankDTO.getCustomer().getId());
         AccountBank accountBank = accountBankMapper.toEntity(accountBankDTO);
+        if(customer.isPresent()){
+        accountBank.setCustomer(customer.get());
+        } else {
+            accountBank.setCustomer(null);
+        }
         accountBank = accountBankRepository.save(accountBank);
         code += (accountBank.getId());
         accountBank.setCode(code);
@@ -79,10 +85,10 @@ public class AccountBankServiceImpl extends BaseComponent implements AccountBank
     public Page<AccountBankDTO> getAccountBankByCode(String code,String type, Pageable pageable) {
         if (!Objects.isNull(code)) {
             code = code.trim().replace("%", "!%").replace("_", "!_");
+        } else {
+            code="%";
         }
-        if (!Objects.isNull(type)) {
-            type = type.trim().replace("%", "!%").replace("_", "!_");
-        }
+
         Page<AccountBank> accountBankPageable = accountBankRepository.findByCodeAndType(code,type, pageable);
         if (accountBankPageable != null && !accountBankPageable.isEmpty()) {
             accountBankPageable.getContent();
